@@ -39,11 +39,16 @@ export const Dashboard = () => {
             {/* Top Appbar */}
             <Appbar letter={firstLetterOfName} />
 
+            {/* Mobile Drawer Host */}
+            <div className="md:hidden">
+                <Sidebar inline={false} />
+            </div>
+
             {/* Layout */}
             <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
                 {/* Sidebar */}
-                <div className="md:col-span-1 bg-gray-900 border-r border-gray-800 shadow-xl">
-                    <Sidebar />
+                <div className="hidden md:block md:col-span-1 bg-gray-900 border-r border-gray-800 shadow-xl">
+                    <Sidebar inline={true} />
                 </div>
 
                 {/* Main Content */}

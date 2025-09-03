@@ -18,8 +18,10 @@ export function Signup() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white">
-            <div className="w-full max-w-md p-8">
-                <div className="bg-gray-900 rounded-2xl border border-gray-800 shadow-xl p-8 space-y-6 hover:shadow-purple-500/20 transition">
+            <div className="w-full max-w-md p-6 sm:p-8">
+                <div className="relative overflow-hidden bg-gray-900 rounded-2xl border border-gray-800 shadow-xl p-6 sm:p-8 space-y-6">
+                    <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-indigo-600/20 blur-3xl" />
+                    <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-600/20 blur-3xl" />
 
                     {/* Title */}
                     <div className="text-center space-y-2">
@@ -52,7 +54,7 @@ export function Signup() {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="pt-4">
+                    <div className="pt-2">
                         <Button
                             onClick={async () => {
                                 const response = await axios.post(

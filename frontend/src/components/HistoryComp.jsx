@@ -39,38 +39,40 @@ export const HistoryComp = () => {
     if (details.loading) {
         return (
             <div className="w-full col-span-5 flex justify-center items-center py-10">
-                <p className="text-gray-500 animate-pulse text-lg">Loading...</p>
+                <p className="text-gray-400 animate-pulse text-lg">Loading...</p>
             </div>
         );
     }
 
     return (
         <div className="w-full col-span-5 flex flex-col items-center px-5">
-            <h1 className="text-2xl py-5 font-bold text-gray-800">Transaction History</h1>
-            <div className="w-full max-w-3xl space-y-4">
-                {details.historyDetails.map((detail) => (
-                    <div
-                        key={detail._id}
-                        className="flex items-center justify-between bg-white rounded-xl shadow-lg p-5 border border-gray-100 hover:shadow-xl transition"
-                    >
-                        {/* Left side */}
-                        <div className="flex flex-col">
-                            <h3 className="font-semibold text-gray-800 text-lg">{detail.name}</h3>
-                            <p className="text-sm text-gray-500">
-                                {dayjs(detail.timestamp).format("MMM D, YYYY • h:mm A")}
-                            </p>
-                        </div>
-
-                        {/* Right side */}
+            <h1 className="text-2xl py-5 font-bold text-gray-100">Transaction History</h1>
+            {details.historyDetails.length === 0 ? (
+                <div className="w-full max-w-3xl p-8 rounded-2xl bg-gray-900 border border-gray-800 text-center text-gray-400">
+                    No transactions yet. Transfers will appear here instantly.
+                </div>
+            ) : (
+                <div className="w-full max-w-3xl space-y-3">
+                    {details.historyDetails.map((detail) => (
                         <div
-                            className={`text-lg font-bold ${detail.sent ? "text-green-600" : "text-red-500"
-                                }`}
+                            key={detail._id}
+                            className="flex items-center justify-between bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition"
                         >
-                            {detail.sent ? "+" : "-"}${detail.amount}
+                            <div className="flex flex-col">
+                                <h3 className="font-semibold text-gray-100 text-lg">{detail.name}</h3>
+                                <p className="text-sm text-gray-500">
+                                    {dayjs(detail.timestamp).format("MMM D, YYYY • h:mm A")}
+                                </p>
+                            </div>
+                            <div
+                                className={`text-lg font-bold ${detail.sent ? "text-emerald-400" : "text-rose-400"}`}
+                            >
+                                {detail.sent ? "+" : "-"}${detail.amount}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

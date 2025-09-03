@@ -21,19 +21,22 @@ export function Profile() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white">
-            {/* Top Appbar */}
             <Appbar letter={firstLetterOfName} />
 
-            {/* Layout */}
-            <div className="grid grid-cols-6 gap-6">
-                {/* Sidebar */}
-                <div className="col-span-1 bg-gray-900 border-r border-gray-800 shadow-xl">
-                    <Sidebar />
+            {/* Mobile Drawer Host */}
+            <div className="md:hidden">
+                <Sidebar inline={false} />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+                <div className="hidden md:block md:col-span-1 bg-gray-900 border-r border-gray-800 shadow-xl">
+                    <Sidebar inline={true} />
                 </div>
 
-                {/* Profile Content */}
-                <div className="col-span-5 p-8">
-                    <div className="bg-gradient-to-tr from-indigo-600/20 via-purple-600/20 to-transparent rounded-2xl p-8 shadow-lg border border-gray-800 hover:shadow-indigo-500/20 transition">
+                <div className="md:col-span-5 p-4 md:p-8">
+                    <div className="relative overflow-hidden bg-gray-900 rounded-2xl border border-gray-800 shadow-xl p-6 md:p-8">
+                        <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-indigo-600/20 blur-3xl" />
+                        <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-600/20 blur-3xl" />
                         <UpdateProfile />
                     </div>
                 </div>

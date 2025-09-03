@@ -23,18 +23,20 @@ export const Users = ({ name }) => {
 
   return (
     <div className="mt-8">
-      <h2 className="font-bold text-xl mb-4 text-gray-800">Users</h2>
-      <div className="mb-6">
-        <input
-          onChange={(e) => {
-            setFilter(e.target.value);
-          }}
-          type="text"
-          placeholder="Search users..."
-          className="w-full px-4 py-2 border rounded-xl border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition"
-        />
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-bold text-xl text-gray-100">People</h2>
+        <div className="relative w-60">
+          <input
+            onChange={(e) => {
+              setFilter(e.target.value);
+            }}
+            type="text"
+            placeholder="Search..."
+            className="w-full px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          />
+        </div>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {filteredUsers.map((user) => (
           <User key={user._id} user={user} />
         ))}
@@ -47,24 +49,27 @@ function User({ user }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow hover:shadow-md transition">
-      <div className="flex items-center gap-3">
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-900 border border-gray-800 p-4 rounded-xl hover:border-gray-700 transition">
+      <div className="flex items-center gap-3 w-full">
         <div className="rounded-full h-12 w-12 bg-gradient-to-r from-indigo-500 to-purple-600 text-white flex items-center justify-center font-semibold shadow">
           {user.firstName[0]}
         </div>
         <div>
-          <p className="font-medium text-gray-800">
+          <p className="font-medium text-gray-100">
             {user.firstName} {user.lastName}
           </p>
-          <p className="text-sm text-gray-500">{user.username}</p>
+          <p className="text-sm text-gray-400">{user.username}</p>
         </div>
       </div>
-      <Button
-        onClick={() =>
-          navigate("/send?id=" + user._id + "&name=" + user.firstName)
-        }
-        label={"Send Money"}
-      />
+      <div className="w-full sm:w-40 mt-3 sm:mt-0">
+        <Button
+          onClick={() =>
+            navigate("/send?id=" + user._id + "&name=" + user.firstName)
+          }
+          label={"Send Money"}
+          size={"sm"}
+        />
+      </div>
     </div>
   );
 }

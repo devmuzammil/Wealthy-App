@@ -24,10 +24,15 @@ export function History() {
             {/* Top Appbar */}
             <Appbar letter={firstLetterOfName} />
 
+            {/* Mobile Drawer Host */}
+            <div className="md:hidden">
+                <Sidebar inline={false} />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-6">
                 {/* Sidebar */}
-                <div className="md:col-span-1 border-r border-gray-800 min-h-screen bg-gray-900/50">
-                    <Sidebar />
+                <div className="hidden md:block md:col-span-1 border-r border-gray-800 min-h-screen bg-gray-900/50">
+                    <Sidebar inline={true} />
                 </div>
 
                 {/* History Section */}
