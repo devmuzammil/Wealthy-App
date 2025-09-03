@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 
-function authMiddleware(err, req, res, next) {
+function authMiddleware(req, res, next) {
 
     const authHeader = req.headers['authorization'];
     if (!authHeader) return res.status(401).json({ error: 'No token provided' });
@@ -10,9 +10,13 @@ function authMiddleware(err, req, res, next) {
     const token = authHeader.split(' ')[1] //Bearer <token>
     if (!token) return res.status(401).json({ error: 'Token Missing' });
 
+    if (!SECRET_KEY) {
+        return res.status(500).json({ error: 'Server misconfiguration: missing SECRET_KEY' });
+    }
+
     jwt.verify(token, SECRET_KEY, (err, decoded) => {
         if (err) return res.status(403).json({ error: 'Invalid Token' });
-        req.userId = decoded.id;
+        req.userId = decoded.userId;
         next();
     });
 }

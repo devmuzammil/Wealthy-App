@@ -34,7 +34,6 @@ router.post('/signup', async (req, res, next) => {
     const userId = user._id;
 
     //Creating Account
-
     await Account.create({ userId, balance: 1 + Math.random() * 10000 });
 
 
@@ -101,3 +100,64 @@ router.get('/bulk', authMiddleware, async (req, res, next) => {
   }
 });
 module.exports = router;
+// Additional user routes
+router.get('/', authMiddleware, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json({ user });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/password', authMiddleware, async (req, res, next) => {
+  try {
+    const { password } = req.body;
+    if (!password || typeof password !== 'string' || password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.updateOne({ _id: req.userId }, { $set: { password: hashedPassword } });
+    res.json({ message: 'Password updated successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Basic forgot-password flow with code (in-memory via DB fields; no email service)
+router.post('/forgot-password', async (req, res, next) => {
+  try {
+    const { username } = req.body;
+    if (!username) return res.status(400).json({ message: 'Username (email) required' });
+    const user = await User.findOne({ username });
+    if (!user) return res.status(200).json({ message: 'If account exists, reset code sent' });
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    user.resetCode = code;
+    user.resetCodeExpires = new Date(Date.now() + 15 * 60 * 1000);
+    await user.save();
+    // In real app, email code. For now, return code for demo/testing
+    res.json({ message: 'Reset code generated', code });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/reset-password', async (req, res, next) => {
+  try {
+    const { username, code, password } = req.body;
+    if (!username || !code || !password) return res.status(400).json({ message: 'username, code, and password required' });
+    const user = await User.findOne({ username });
+    if (!user || !user.resetCode || !user.resetCodeExpires) return res.status(400).json({ message: 'Invalid reset request' });
+    if (user.resetCode !== code) return res.status(400).json({ message: 'Invalid code' });
+    if (new Date() > user.resetCodeExpires) return res.status(400).json({ message: 'Code expired' });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetCode = undefined;
+    user.resetCodeExpires = undefined;
+    await user.save();
+    res.json({ message: 'Password reset successful' });
+  } catch (err) {
+    next(err);
+  }
+});
