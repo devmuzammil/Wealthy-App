@@ -4,7 +4,6 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 5000;
-const SECRET_KEY = process.env.SECRET_KEY;
 app.use(cors());
 app.use(express.json());
 app.use('/api/v1', rootRouter);
@@ -19,4 +18,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => console.log(`Server Runing at Port : ${port}`));
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => console.log(`Server Running at Port : ${port}`));
+}
+
+module.exports = app;
