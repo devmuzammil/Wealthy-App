@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiUrl } from "../api";
 import { useState } from "react";
 import { Heading } from "../components/Heading";
 import { SubHeading } from "../components/SubHeading";
@@ -58,7 +59,7 @@ export function Signup() {
                         <Button
                             onClick={async () => {
                                 const response = await axios.post(
-                                    "http://localhost:3000/api/v1/user/signup",
+                                    apiUrl("/user/signup"),
                                     {
                                         username,
                                         password,

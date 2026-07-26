@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { apiUrl } from "../api";
 import { InputBox } from "./InputBox";
 import { Button } from "./Button";
 import axios from "axios";
@@ -14,7 +15,7 @@ export const UpdateProfile = () => {
 
     const getData = async () => {
         try {
-            const userData = await axios.get("http://localhost:3000/api/v1/user/", {
+            const userData = await axios.get(apiUrl("/user/"), {
                 headers: { Authorization: "Bearer " + localStorage.getItem("token") },
             });
 
@@ -74,7 +75,7 @@ export const UpdateProfile = () => {
                                     return;
                                 }
                                 const resp = await axios.put(
-                                    "http://localhost:3000/api/v1/user/password",
+                                    apiUrl("/user/password"),
                                     { password: newPassword },
                                     {
                                         headers: {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiUrl } from "../api";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
@@ -8,7 +9,7 @@ const useFetchHistory = () => {
 
     const getHistory = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/api/v1/history", {
+            const response = await axios.get(apiUrl("/history"), {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token"),
                 },

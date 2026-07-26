@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiUrl } from "../api";
 import { Heading } from "../components/Heading";
 import { SubHeading } from "../components/SubHeading";
 import { InputBox } from "../components/InputBox";
@@ -46,7 +47,7 @@ export function Signin() {
                             onClick={async () => {
                                 try {
                                     const response = await axios.post(
-                                        "http://localhost:3000/api/v1/user/signin",
+                                        apiUrl("/user/signin"),
                                         {
                                             username,
                                             password,

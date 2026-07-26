@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiUrl } from "../api";
 import { useEffect, useState } from "react";
 import { Button } from "./Button";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +10,7 @@ export const Users = ({ name }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/user/bulk?filter=" + filter, {
+      .get(apiUrl(`/user/bulk?filter=${filter}`), {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
