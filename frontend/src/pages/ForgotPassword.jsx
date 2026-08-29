@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { apiUrl } from "../api";
 
 export function ForgotPassword() {
     const [step, setStep] = useState(1);
@@ -11,7 +12,7 @@ export function ForgotPassword() {
 
     const requestCode = async () => {
         try {
-            const resp = await axios.post("http://localhost:3000/api/v1/user/forgot-password", { username });
+            const resp = await axios.post(apiUrl("/user/forgot-password"), { username });
             setMessage(resp.data.message + (resp.data.code ? ` (DEV code: ${resp.data.code})` : ""));
             setError("");
             setStep(2);
@@ -22,7 +23,7 @@ export function ForgotPassword() {
 
     const resetPassword = async () => {
         try {
-            const resp = await axios.post("http://localhost:3000/api/v1/user/reset-password", { username, code, password });
+            const resp = await axios.post(apiUrl("/user/reset-password"), { username, code, password });
             setMessage(resp.data.message);
             setError("");
             setStep(3);

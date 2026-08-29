@@ -3,12 +3,13 @@ import { useEffect, useState } from "react"
 import { Appbar } from "../components/Appbar"
 import { Sidebar } from "../components/Sidebar"
 import { UpdateProfile } from "../components/UpdateProfile"
+import { apiUrl } from "../api"
 
 export function Profile() {
     const [firstLetterOfName, setFirstLetterOfName] = useState("");
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/account/balance", {
+        axios.get(apiUrl("/account/balance"), {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }

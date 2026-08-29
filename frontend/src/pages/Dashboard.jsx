@@ -5,6 +5,7 @@ import { Appbar } from "../components/Appbar"
 import { Balance } from "../components/Balance"
 import { Users } from "../components/Users"
 import { Sidebar } from "../components/Sidebar"
+import { apiUrl } from "../api"
 
 export const Dashboard = () => {
     const [balance, setBalance] = useState(0);
@@ -13,7 +14,7 @@ export const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/account/balance", {
+        axios.get(apiUrl("/account/balance"), {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }

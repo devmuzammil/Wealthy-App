@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../api";
 
 export function Authentication() {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function Authentication() {
             return;
         }
 
-        axios.get("http://localhost:3000/api/v1/account/balance", {
+        axios.get(apiUrl("/account/balance"), {
             headers: {
                 Authorization: "Bearer " + token
             }
